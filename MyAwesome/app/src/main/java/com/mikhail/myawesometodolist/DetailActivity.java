@@ -50,7 +50,6 @@ public class DetailActivity extends AppCompatActivity {
 //                        .setAction("Action", null).show();
 
                 String takeText = secondActivityEditText.getText().toString();
-//                secondActivityEditText.setText(null);
 
 
                 if (mStringListDetailActivity.size() >= 15) {
@@ -60,6 +59,8 @@ public class DetailActivity extends AppCompatActivity {
                 } else {
                     mStringListDetailActivity.add(takeText);
                     mAdapterDetailActivity.notifyDataSetChanged();
+                    secondActivityEditText.setText(null);
+
                 }
             }
         });

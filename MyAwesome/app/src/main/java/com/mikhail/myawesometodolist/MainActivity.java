@@ -49,63 +49,58 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-   private void setListeners(){
+    private void setListeners() {
 
-       FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-       fab.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View view) {
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 //                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
 //                        .setAction("Action", null).show();
-               Log.d("setOnClickListener", "Fab button Clicked");
+                Log.d("setOnClickListener", "Fab button Clicked");
 
-               String takeText = firstActivityEditText.getText().toString();
-//               firstActivityEditText.setText(null);
-               Log.d("setText", "Null");
-               Log.d("setText", "editexttostring:n "+firstActivityEditText.toString());
+                String takeText = firstActivityEditText.getText().toString();
+                Log.d("setText", "Null");
+                Log.d("setText", "editexttostring:n " + firstActivityEditText.toString());
 
 
-               if (mStringList.size() >= 10) {
-                   Toast.makeText(MainActivity.this, "You've reached maximum To-Do-Lists", Toast.LENGTH_SHORT).show();
-               } else if (firstActivityEditText.getText().toString().isEmpty()) {
-                   Toast.makeText(MainActivity.this, "Cannot be empty", Toast.LENGTH_SHORT).show();
-               } else {
-                   mStringList.add(takeText);
-                   mAdapter.notifyDataSetChanged();
-               }
+                if (mStringList.size() >= 10) {
+                    Toast.makeText(MainActivity.this, "You've reached maximum To-Do-Lists", Toast.LENGTH_SHORT).show();
+                } else if (firstActivityEditText.getText().toString().isEmpty()) {
+                    Toast.makeText(MainActivity.this, "Cannot be empty", Toast.LENGTH_SHORT).show();
+                } else {
+                    mStringList.add(takeText);
+                    mAdapter.notifyDataSetChanged();
+                    firstActivityEditText.setText(null);
 
-           }
-       });
-       firstActivityListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-           @Override
-           public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-               startActivity(detailActivityTransition);
+                }
+
+            }
+        });
+        firstActivityListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                startActivity(detailActivityTransition);
 
 //                String toDoS = textView.getText().toString();
 
-           }
-       });
+            }
+        });
 
-       firstActivityListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-           @Override
-           public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-               mStringList.remove(position);
-               mAdapter.notifyDataSetChanged();
-               Toast.makeText(MainActivity.this, "DELETED", Toast.LENGTH_SHORT).show();
+        firstActivityListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                mStringList.remove(position);
+                mAdapter.notifyDataSetChanged();
+                Toast.makeText(MainActivity.this, "DELETED", Toast.LENGTH_SHORT).show();
 
-               return false;
-           }
-       });
+                return false;
+            }
+        });
 
-   }
+    }
 
 }
-
-
-
-
-
-
 
 
 //    @Override
