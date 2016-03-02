@@ -50,11 +50,13 @@ public class DetailActivity extends AppCompatActivity {
 //                        .setAction("Action", null).show();
 
                 String takeText = secondActivityEditText.getText().toString();
-                secondActivityEditText.setText(null);
+//                secondActivityEditText.setText(null);
 
 
                 if (mStringListDetailActivity.size() >= 15) {
                     Toast.makeText(DetailActivity.this, "You've reached maximum To-Do-Lists", Toast.LENGTH_SHORT).show();
+                } else if (secondActivityEditText.getText().toString().isEmpty()) {
+                    Toast.makeText(DetailActivity.this, "Cannot be empty", Toast.LENGTH_SHORT).show();
                 } else {
                     mStringListDetailActivity.add(takeText);
                     mAdapterDetailActivity.notifyDataSetChanged();
@@ -68,7 +70,7 @@ public class DetailActivity extends AppCompatActivity {
 //        toDoListHeaderSecond.getText(findViewById(long id));
 //    }
 
-    private void setDetailActivityListeners(){
+    private void setDetailActivityListeners() {
 
         secondActivityListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

@@ -60,12 +60,15 @@ public class MainActivity extends AppCompatActivity {
                Log.d("setOnClickListener", "Fab button Clicked");
 
                String takeText = firstActivityEditText.getText().toString();
-               firstActivityEditText.setText(null);
+//               firstActivityEditText.setText(null);
                Log.d("setText", "Null");
+               Log.d("setText", "editexttostring:n "+firstActivityEditText.toString());
 
 
                if (mStringList.size() >= 10) {
                    Toast.makeText(MainActivity.this, "You've reached maximum To-Do-Lists", Toast.LENGTH_SHORT).show();
+               } else if (firstActivityEditText.getText().toString().isEmpty()) {
+                   Toast.makeText(MainActivity.this, "Cannot be empty", Toast.LENGTH_SHORT).show();
                } else {
                    mStringList.add(takeText);
                    mAdapter.notifyDataSetChanged();
