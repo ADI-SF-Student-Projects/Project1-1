@@ -25,6 +25,7 @@
         />
 
     <EditText
+        android:hint="@string/TextView1"
         android:layout_marginTop="20dp"
         android:id="@+id/editText1"
         android:layout_width="match_parent"
