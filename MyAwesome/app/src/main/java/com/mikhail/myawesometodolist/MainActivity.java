@@ -65,7 +65,9 @@ public class MainActivity extends AppCompatActivity {
 
 
                 if (mStringList.size() >= 10) {
-                    Toast.makeText(MainActivity.this, "You've reached maximum To-Do-Lists", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "You've reached maximum To-Do-Lists!!!" +
+                            "\n                 " +
+                            "BUY FULL VERSION!!!", Toast.LENGTH_SHORT).show();
                 } else if (firstActivityEditText.getText().toString().isEmpty()) {
                     Toast.makeText(MainActivity.this, "Cannot be empty", Toast.LENGTH_SHORT).show();
                 } else {
@@ -80,9 +82,17 @@ public class MainActivity extends AppCompatActivity {
         firstActivityListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                startActivity(detailActivityTransition);
 
-//                String toDoS = textView.getText().toString();
+
+                String myDatafromToDoList = mStringList.get(position);
+
+                detailActivityTransition.putExtra("data", myDatafromToDoList);
+                startActivity(detailActivityTransition);
+//                intent.getIntExtra("ID", 0);
+//                intent.getStringExtra("SENDER");
+//                startActivity(intent);
+
+
 
             }
         });

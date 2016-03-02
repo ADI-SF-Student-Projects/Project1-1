@@ -41,19 +41,20 @@ public class DetailActivity extends AppCompatActivity {
         secondActivityListView.setAdapter(mAdapterDetailActivity);
         mainActivityIntent = getIntent();
 
+        String message = mainActivityIntent.getStringExtra("data");
+
+        toDoListHeaderSecond.setText(message);
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab1);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
 
                 String takeText = secondActivityEditText.getText().toString();
 
-
-                if (mStringListDetailActivity.size() >= 15) {
-                    Toast.makeText(DetailActivity.this, "You've reached maximum To-Do-Lists", Toast.LENGTH_SHORT).show();
+                if (mStringListDetailActivity.size() >= 25) {
+                    Toast.makeText(DetailActivity.this, "You've reached maximum To-DoS allowed!", Toast.LENGTH_SHORT).show();
                 } else if (secondActivityEditText.getText().toString().isEmpty()) {
                     Toast.makeText(DetailActivity.this, "Cannot be empty", Toast.LENGTH_SHORT).show();
                 } else {
@@ -67,9 +68,6 @@ public class DetailActivity extends AppCompatActivity {
         setDetailActivityListeners();
     }
 
-//    private void changeHeader(){
-//        toDoListHeaderSecond.getText(findViewById(long id));
-//    }
 
     private void setDetailActivityListeners() {
 
