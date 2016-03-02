@@ -55,6 +55,9 @@ public class MainActivity extends AppCompatActivity {
                               Log.d("setOnClickListener", "Fab button Clicked");
 
                 String takeText = firstActivityEditText.getText().toString();
+                firstActivityEditText.setText(null);
+                Log.d("setText", "Null");
+
 
 
                 if (mStringList.size() >= 10){
@@ -82,6 +85,10 @@ public class MainActivity extends AppCompatActivity {
         firstActivityListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                mStringList.remove(position);
+                mAdapter.notifyDataSetChanged();
+                Toast.makeText(MainActivity.this, "DELETED", Toast.LENGTH_SHORT).show();
+
                 return false;
             }
         });
