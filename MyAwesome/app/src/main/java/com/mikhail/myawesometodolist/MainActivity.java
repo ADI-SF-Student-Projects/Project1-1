@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     Intent detailActivityTransition;
     ArrayList<String> mStringList;
     ArrayAdapter mAdapter;
-//    public static int requestCodeFromDetailActivity;
+     static final int requestCodeFromDetailActivity = 1; // give some value???
 
 
     @Override
@@ -85,10 +85,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                String myDatafromToDoList = mStringList.get(position);
+                String myDataFromToDoList = mStringList.get(position);
 
-                detailActivityTransition.putExtra("data", myDatafromToDoList);
-                startActivity(detailActivityTransition);
+                detailActivityTransition.putExtra("data", myDataFromToDoList);
+                startActivityForResult(detailActivityTransition, requestCodeFromDetailActivity);
 
             }
         });
@@ -117,9 +117,11 @@ public class MainActivity extends AppCompatActivity {
 //    @Override
 //    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 //        // Check which request we're responding to
-//        if (requestCode == PICK_CONTACT_REQUEST) {
+//        if (requestCode == requestCodeFromDetailActivity) {
 //            // Make sure the request was successful
 //            if (resultCode == RESULT_OK) {
+//                detailActivityTransition.getStringExtra("Result");
+//
 //                // The user picked a contact.
 //                // The Intent's data Uri identifies which contact was selected.
 //
