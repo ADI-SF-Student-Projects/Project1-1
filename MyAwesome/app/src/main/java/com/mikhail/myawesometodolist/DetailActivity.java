@@ -57,11 +57,12 @@ public class DetailActivity extends AppCompatActivity {
                     Toast.makeText(DetailActivity.this, "You've reached maximum To-DoS allowed!", Toast.LENGTH_SHORT).show();
                 } else if (secondActivityEditText.getText().toString().isEmpty()) {
                     Toast.makeText(DetailActivity.this, "Cannot be empty", Toast.LENGTH_SHORT).show();
+                } else if (secondActivityEditText.getText().toString().length() > 40) {
+                    Toast.makeText(DetailActivity.this, "Too Long!!!", Toast.LENGTH_SHORT).show();
                 } else {
                     mStringListDetailActivity.add(takeText);
                     mAdapterDetailActivity.notifyDataSetChanged();
                     secondActivityEditText.setText(null);
-
                 }
             }
         });
@@ -71,14 +72,12 @@ public class DetailActivity extends AppCompatActivity {
 
     private void setDetailActivityListeners() {
 
-        secondActivityListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-//                String toDoS = textView.getText().toString();
-
-            }
-        });
+//        secondActivityListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//
+//            }
+//        });
 
         secondActivityListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override

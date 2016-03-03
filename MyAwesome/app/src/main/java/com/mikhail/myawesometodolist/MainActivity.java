@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     Intent detailActivityTransition;
     ArrayList<String> mStringList;
     ArrayAdapter mAdapter;
+//    public static int requestCodeFromDetailActivity;
 
 
     @Override
@@ -46,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
         firstActivityListView.setAdapter(mAdapter);
 
         setListeners();
+//        onActivityResult();
 
     }
 
@@ -55,13 +57,11 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
                 Log.d("setOnClickListener", "Fab button Clicked");
 
                 String takeText = firstActivityEditText.getText().toString();
                 Log.d("setText", "Null");
-                Log.d("setText", "editexttostring:n " + firstActivityEditText.toString());
+                Log.d("setText", "editTextToString:n " + firstActivityEditText.toString());
 
 
                 if (mStringList.size() >= 10) {
@@ -70,6 +70,8 @@ public class MainActivity extends AppCompatActivity {
                             "BUY FULL VERSION!!!", Toast.LENGTH_SHORT).show();
                 } else if (firstActivityEditText.getText().toString().isEmpty()) {
                     Toast.makeText(MainActivity.this, "Cannot be empty", Toast.LENGTH_SHORT).show();
+                } else if (firstActivityEditText.getText().toString().length() > 40) {
+                    Toast.makeText(MainActivity.this, "Too Long!!!", Toast.LENGTH_SHORT).show();
                 } else {
                     mStringList.add(takeText);
                     mAdapter.notifyDataSetChanged();
@@ -83,16 +85,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-
                 String myDatafromToDoList = mStringList.get(position);
 
                 detailActivityTransition.putExtra("data", myDatafromToDoList);
                 startActivity(detailActivityTransition);
-//                intent.getIntExtra("ID", 0);
-//                intent.getStringExtra("SENDER");
-//                startActivity(intent);
-
-
 
             }
         });
@@ -110,29 +106,28 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
+//    public void onActivityResult(){
+//
+//        Intent pickContactIntent = new Intent(Intent.ACTION_PICK, Uri.parse("content://contacts"));
+//        pickContactIntent.setType(Phone.CONTENT_TYPE); // Show user only contacts w/ phone numbers
+//        startActivityForResult(pickContactIntent, PICK_CONTACT_REQUEST);
+//
+//    }
+//
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        // Check which request we're responding to
+//        if (requestCode == PICK_CONTACT_REQUEST) {
+//            // Make sure the request was successful
+//            if (resultCode == RESULT_OK) {
+//                // The user picked a contact.
+//                // The Intent's data Uri identifies which contact was selected.
+//
+//                // Do something with the contact here (bigger example below)
+//            }
+//        }
+//    }
 
 }
 
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.menu_main, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
