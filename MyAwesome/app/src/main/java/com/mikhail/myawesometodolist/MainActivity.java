@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     Intent detailActivityTransition;
     ArrayList<String> mStringList;
     ArrayAdapter mAdapter;
-     static final int requestCodeFromDetailActivity = 1; // give some value???
+    static final int requestCodeFromDetailActivity = 1; // give some value???
 
 
     @Override
@@ -114,21 +114,21 @@ public class MainActivity extends AppCompatActivity {
 //
 //    }
 //
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        // Check which request we're responding to
-//        if (requestCode == requestCodeFromDetailActivity) {
-//            // Make sure the request was successful
-//            if (resultCode == RESULT_OK) {
-//                detailActivityTransition.getStringExtra("Result");
-//
-//                // The user picked a contact.
-//                // The Intent's data Uri identifies which contact was selected.
-//
-//                // Do something with the contact here (bigger example below)
-//            }
-//        }
-//    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Check which request we're responding to
+        if (requestCode == requestCodeFromDetailActivity) {
+            // Make sure the request was successful
+            if (resultCode == RESULT_OK) {
+                detailActivityTransition.getStringExtra("Result");
+
+                // The user picked a contact.
+                // The Intent's data Uri identifies which contact was selected.
+
+                // Do something with the contact here (bigger example below)
+            }
+        }
+    }
 
 }
 

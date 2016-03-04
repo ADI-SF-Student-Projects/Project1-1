@@ -54,8 +54,6 @@ public class DetailActivity extends AppCompatActivity {
                 String takeText = secondActivityEditText.getText().toString();
 
 
-
-
                 if (mStringListDetailActivity.size() >= 25) {
                     Toast.makeText(DetailActivity.this, "You've reached maximum To-DoS allowed!", Toast.LENGTH_SHORT).show();
                 } else if (secondActivityEditText.getText().toString().isEmpty()) {
@@ -98,7 +96,16 @@ public class DetailActivity extends AppCompatActivity {
 
     }
 
-//    private void seeDataFromDetailActivity() {
+    @Override
+    public void onBackPressed() {
+        String takeText = secondActivityEditText.getText().toString();
+        Intent dataDetailActivity = new Intent(takeText);
+        setResult(RESULT_OK, dataDetailActivity);
+        startActivityForResult(dataDetailActivity, requestCodeFromDetailActivity);
+        finish();
+    }
+
+    //    private void seeDataFromDetailActivity() {
 //        String takeText = secondActivityEditText.getText().toString();
 //        Intent dataDetailActivity = new Intent(takeText);
 //        setResult(RESULT_OK, dataDetailActivity);
