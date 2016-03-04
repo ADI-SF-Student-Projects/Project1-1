@@ -23,9 +23,12 @@ public class DetailActivity extends AppCompatActivity {
     EditText secondActivityEditText;
     ListView secondActivityListView;
     Intent mainActivityIntent;
-    ArrayList<String> mStringListDetailActivity;
-    ArrayList<String> mStringListDetailActivityCopy;
+    Intent toReturnBackMyDataToMainActivity;
+    private ArrayList<String> mStringListDetailActivity;
+//    ArrayList<String> mStringListDetailActivityCopy;
     ArrayAdapter mAdapterDetailActivity;
+    public int index;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,17 +40,20 @@ public class DetailActivity extends AppCompatActivity {
         toDoListHeaderSecond = (TextView) findViewById(R.id.header1);
         secondActivityEditText = (EditText) findViewById(R.id.editText1);
         secondActivityListView = (ListView) findViewById(R.id.list1);
-        mStringListDetailActivity = new ArrayList<>();
         mAdapterDetailActivity = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, mStringListDetailActivity);
         secondActivityListView.setAdapter(mAdapterDetailActivity);
+        mStringListDetailActivity = new ArrayList<>();
         mainActivityIntent = getIntent();
+
 
         String message = mainActivityIntent.getStringExtra("data");
 
         toDoListHeaderSecond.setText(message);
 
 
-//        onBackPressed();
+        setDetailActivityListeners();
+        mStringListDetailActivity = getDataList();
+        index = getIndex();
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab1);
@@ -58,53 +64,74 @@ public class DetailActivity extends AppCompatActivity {
                 String takeText = secondActivityEditText.getText().toString();
 
 
-                if (mStringListDetailActivity.size() >= 25) {
-                    Toast.makeText(DetailActivity.this, "You've reached maximum To-DoS allowed!", Toast.LENGTH_SHORT).show();
-                } else if (secondActivityEditText.getText().toString().isEmpty()) {
+//                if (mStringListDetailActivity.size() >= 25) {
+//                    Toast.makeText(DetailActivity.this, "You've reached maximum To-DoS allowed!", Toast.LENGTH_SHORT).show();
+                if (secondActivityEditText.getText().toString().isEmpty()) {
                     Toast.makeText(DetailActivity.this, "Cannot be empty", Toast.LENGTH_SHORT).show();
                 } else if (secondActivityEditText.getText().toString().length() > 40) {
                     Toast.makeText(DetailActivity.this, "Too Long!!!", Toast.LENGTH_SHORT).show();
                 } else {
                     mStringListDetailActivity.add(takeText);
                     mAdapterDetailActivity.notifyDataSetChanged();
-                    secondActivityEditText.setText(null);
+                    secondActivityEditText.getText().clear();
                 }
             }
         });
-        setDetailActivityListeners();
 
-//        mStringListDetailActivity = getData();
 
     }
 
-    private ArrayList<String> getData() {
+
+    private ArrayList<String> getDataList() {
+//        Intent toReturnBackMyDataToMainActivity = getIntent();
         if (mainActivityIntent == null) {
             return null;
-        }
-        return mainActivityIntent.getStringArrayListExtra(MainActivity.DATA_KEY);
+        }        return mainActivityIntent.getStringArrayListExtra(MainActivity.DATA_KEY);
+
     }
 
-    private void modifyList() {
+    private int getIndex() {
+//        Intent mainActivityIntent = getIntent();
+        if (mainActivityIntent == null) {
+            return -1;
+        }
+        return mainActivityIntent.getIntExtra(MainActivity.DATA_KEY_INDEX, -1);
+    }
 
 
-        if (mStringListDetailActivity == null) {
+    private void addItemsToList(int numItems){
+        if (mStringListDetailActivity == null){
             return;
         }
-        mStringListDetailActivityCopy = new ArrayList<>(mStringListDetailActivity.size());
-        for (String item : mStringListDetailActivity) {
-            item += " back";
-            mStringListDetailActivityCopy.add(item);
+        for (int i = 0; i < numItems; i++){
+            mStringListDetailActivity.add("Awesome list at: " + i);
         }
     }
 
     private void sendNewListBack() {
-        Intent toReturnBackMyDataToMainActivity = getIntent();
+
+
         if (toReturnBackMyDataToMainActivity == null) {
             return;
         }
-        toReturnBackMyDataToMainActivity.putExtra(MainActivity.DATA_KEY, mStringListDetailActivityCopy);
+        toReturnBackMyDataToMainActivity.putExtra(MainActivity.DATA_KEY, mStringListDetailActivity);
+        toReturnBackMyDataToMainActivity.putExtra(MainActivity.DATA_KEY_INDEX, index);
         setResult(RESULT_OK, toReturnBackMyDataToMainActivity);
         finish();
+    }
+
+
+    @Override
+    public void onBackPressed() {
+
+        sendDataBack();
+    }
+
+    private void sendDataBack() {
+        // modify the list
+        addItemsToList(25);
+        // send the data back
+        sendNewListBack();
     }
 
 
@@ -124,16 +151,5 @@ public class DetailActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    public void onBackPressed() {
-        sendDataBack();
-    }
-
-    private void sendDataBack() {
-        // modify the list
-        modifyList();
-        // send the data back
-        sendNewListBack();
-    }
 
 }

@@ -1,16 +1,12 @@
 package com.mikhail.myawesometodolist;
 
 import android.content.Intent;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -26,11 +22,14 @@ public class MainActivity extends AppCompatActivity {
     EditText firstActivityEditText;
     ListView firstActivityListView;
     Intent detailActivityTransition;
-    ArrayList<String> mStringList;
+    private ArrayList<String> myDataList;
     ArrayAdapter mAdapter;
-    static final int MAIN_REQUEST_CODE = 1;    // request code that will be used to request data from DetailActivity
+    private static final int MAIN_REQUEST_CODE = 1;    // request code that will be used to request data from DetailActivity
     public static final String DATA_KEY = "myDataKey";  // data key to retrieve data from intent, so we can retrieve data in DetailActivity
-    public ArrayList<String> myDataList; //Will store here my data from DetailActivity
+    public static final String DATA_KEY_INDEX = "myDataKeyIndex";
+    public static final int ERROR_INDEX = -1;
+
+    public ArrayList <ArrayList<String>> myMasterDataList; //Will store here my data from DetailActivity
 
 
     @Override
@@ -44,9 +43,12 @@ public class MainActivity extends AppCompatActivity {
         firstActivityEditText = (EditText) findViewById(R.id.editText);
         firstActivityListView = (ListView) findViewById(R.id.list);
         detailActivityTransition = new Intent(this, DetailActivity.class);
-        mStringList = new ArrayList<>();
-        mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, mStringList);
+        myDataList = new ArrayList<>();
+        mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, myDataList);
         firstActivityListView.setAdapter(mAdapter);
+//        bundle = new Bundle();
+        myMasterDataList = new ArrayList<>();
+        myMasterDataList.add(myDataList);
 
         setListeners();
 
@@ -65,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("setText", "editTextToString:n " + firstActivityEditText.toString());
 
 
-                if (mStringList.size() >= 10) {
+                if (myDataList.size() >= 10) {
                     Toast.makeText(MainActivity.this, "You've reached maximum To-Do-Lists!!!" +
                             "\n                 " +
                             "BUY FULL VERSION!!!", Toast.LENGTH_SHORT).show();
@@ -74,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
                 } else if (firstActivityEditText.getText().toString().length() > 40) {
                     Toast.makeText(MainActivity.this, "Too Long!!!", Toast.LENGTH_SHORT).show();
                 } else {
-                    mStringList.add(takeText);
+                    myDataList.add(takeText);
                     mAdapter.notifyDataSetChanged();
                     firstActivityEditText.setText(null);
 
@@ -86,8 +88,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                String myDataFromToDoList = mStringList.get(position);
+                String myDataFromToDoList = myDataList.get(position);
 
+                detailActivityTransition.putExtra(DATA_KEY_INDEX, 0);
+               detailActivityTransition.putExtra("data", myMasterDataList.get(0));   /* myDataFromToDoList */
                 detailActivityTransition.putExtra("data", myDataFromToDoList);
                 startActivityForResult(detailActivityTransition, MAIN_REQUEST_CODE);
                 Log.d("myDataFromToDoList", "detailActivityTransition");
@@ -98,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
         firstActivityListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                mStringList.remove(position);
+                myDataList.remove(position);
                 mAdapter.notifyDataSetChanged();
                 Toast.makeText(MainActivity.this, "DELETED", Toast.LENGTH_SHORT).show();
 
@@ -116,12 +120,22 @@ public class MainActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 if (data != null) {
                     // update data list with the new data
-                    myDataList = data.getStringArrayListExtra(DATA_KEY);
+//                    myMasterDataList = data.getStringArrayListExtra(DATA_KEY);
+
+                    ArrayList<String> tempList = data.getStringArrayListExtra(DATA_KEY);
+                    int index = data.getIntExtra(DATA_KEY_INDEX, ERROR_INDEX);
+
+                    if (index != ERROR_INDEX){
+                        myMasterDataList.set(index, tempList);
+                    }
+                    myMasterDataList.set(index, tempList);
                 }
 
             }
         }
     }
+
+
 }
 
 
