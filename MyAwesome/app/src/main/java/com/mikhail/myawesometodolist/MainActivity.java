@@ -45,10 +45,8 @@ public class MainActivity extends AppCompatActivity {
         mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, myDataList);
         firstActivityListView.setAdapter(mAdapter);
         myMasterDataList = new ArrayList<>();
-        myMasterDataList.add(myDataList);
 
         detailActivityTransition = new Intent(MainActivity.this, DetailActivity.class);
-
 
         setListeners();
 
@@ -77,7 +75,8 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "Too Long!!!", Toast.LENGTH_SHORT).show();
                 } else {
                     myDataList.add(takeText);
-                    myMasterDataList.add(new ArrayList<String>());
+                    ArrayList<String> placeHolder = new ArrayList<String>();
+                    myMasterDataList.add(placeHolder);
                     mAdapter.notifyDataSetChanged();
                     firstActivityEditText.getText().clear();
 
@@ -130,16 +129,11 @@ public class MainActivity extends AppCompatActivity {
                     if (index != ERROR_INDEX) {
                         myMasterDataList.set(index, tempList);
                     }
-                    myMasterDataList.set(index, tempList);
-//                } else  if (requestCode == RESULT_CANCELED){
-//                    Log.w("Main", "Failed to get new list back");
                 }
 
             }
         }
     }
-
-
 }
 
 

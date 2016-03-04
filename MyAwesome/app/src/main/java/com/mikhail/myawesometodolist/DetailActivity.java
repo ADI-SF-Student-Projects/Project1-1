@@ -67,10 +67,7 @@ public class DetailActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 String takeText = secondActivityEditText.getText().toString();
-
-
-//                if (mStringListDetailActivity.size() >= 25) {
-//                    Toast.makeText(DetailActivity.this, "You've reached maximum To-DoS allowed!", Toast.LENGTH_SHORT).show();
+                
                 if (secondActivityEditText.getText().toString().isEmpty()) {
                     Toast.makeText(DetailActivity.this, "Cannot be empty", Toast.LENGTH_SHORT).show();
                 } else if (secondActivityEditText.getText().toString().length() > 40) {
@@ -88,7 +85,6 @@ public class DetailActivity extends AppCompatActivity {
 
 
     private ArrayList<String> getDataList() {
-//        Intent toReturnBackMyDataToMainActivity = getIntent();
         if (mainActivityIntent == null) {
             return null;
         }
@@ -97,7 +93,6 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private int getIndex() {
-//        Intent mainActivityIntent = getIntent();
         if (mainActivityIntent == null) {
             return MainActivity.ERROR_INDEX;
         }
