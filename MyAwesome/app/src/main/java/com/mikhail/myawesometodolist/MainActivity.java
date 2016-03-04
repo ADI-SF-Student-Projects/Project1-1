@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
                     ArrayList<String> placeHolder = new ArrayList<String>();
                     myMasterDataList.add(placeHolder);
                     mAdapter.notifyDataSetChanged();
-                    firstActivityEditText.getText().clear();
+                    firstActivityEditText.setText(null);
 
 
                 }

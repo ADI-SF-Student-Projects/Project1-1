@@ -67,7 +67,7 @@ public class DetailActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 String takeText = secondActivityEditText.getText().toString();
-                
+
                 if (secondActivityEditText.getText().toString().isEmpty()) {
                     Toast.makeText(DetailActivity.this, "Cannot be empty", Toast.LENGTH_SHORT).show();
                 } else if (secondActivityEditText.getText().toString().length() > 40) {
