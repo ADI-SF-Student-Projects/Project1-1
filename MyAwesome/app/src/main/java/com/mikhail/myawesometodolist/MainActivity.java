@@ -28,8 +28,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String DATA_KEY = "myDataKey";  // data key to retrieve data from intent, so we can retrieve data in DetailActivity
     public static final String DATA_KEY_INDEX = "myDataKeyIndex";
     public static final int ERROR_INDEX = -1;
-
-    public ArrayList <ArrayList<String>> myMasterDataList; //Will store here my data from DetailActivity
+    public ArrayList<ArrayList<String>> myMasterDataList; //Will store here my data from DetailActivity
 
 
     @Override
@@ -42,13 +41,14 @@ public class MainActivity extends AppCompatActivity {
         toDoListHeaderFirst = (TextView) findViewById(R.id.header);
         firstActivityEditText = (EditText) findViewById(R.id.editText);
         firstActivityListView = (ListView) findViewById(R.id.list);
-        detailActivityTransition = new Intent(this, DetailActivity.class);
         myDataList = new ArrayList<>();
         mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, myDataList);
         firstActivityListView.setAdapter(mAdapter);
-//        bundle = new Bundle();
         myMasterDataList = new ArrayList<>();
         myMasterDataList.add(myDataList);
+
+        detailActivityTransition = new Intent(MainActivity.this, DetailActivity.class);
+
 
         setListeners();
 
@@ -77,8 +77,10 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "Too Long!!!", Toast.LENGTH_SHORT).show();
                 } else {
                     myDataList.add(takeText);
+                    myMasterDataList.add(new ArrayList<String>());
                     mAdapter.notifyDataSetChanged();
-                    firstActivityEditText.setText(null);
+                    firstActivityEditText.getText().clear();
+
 
                 }
 
@@ -90,9 +92,9 @@ public class MainActivity extends AppCompatActivity {
 
                 String myDataFromToDoList = myDataList.get(position);
 
-                detailActivityTransition.putExtra(DATA_KEY_INDEX, 0);
-               detailActivityTransition.putExtra("data", myMasterDataList.get(0));   /* myDataFromToDoList */
                 detailActivityTransition.putExtra("data", myDataFromToDoList);
+                detailActivityTransition.putExtra(DATA_KEY_INDEX, position);
+                detailActivityTransition.putExtra(DATA_KEY, myMasterDataList.get(position));   /* myDataFromToDoList */
                 startActivityForResult(detailActivityTransition, MAIN_REQUEST_CODE);
                 Log.d("myDataFromToDoList", "detailActivityTransition");
 
@@ -125,10 +127,12 @@ public class MainActivity extends AppCompatActivity {
                     ArrayList<String> tempList = data.getStringArrayListExtra(DATA_KEY);
                     int index = data.getIntExtra(DATA_KEY_INDEX, ERROR_INDEX);
 
-                    if (index != ERROR_INDEX){
+                    if (index != ERROR_INDEX) {
                         myMasterDataList.set(index, tempList);
                     }
                     myMasterDataList.set(index, tempList);
+//                } else  if (requestCode == RESULT_CANCELED){
+//                    Log.w("Main", "Failed to get new list back");
                 }
 
             }

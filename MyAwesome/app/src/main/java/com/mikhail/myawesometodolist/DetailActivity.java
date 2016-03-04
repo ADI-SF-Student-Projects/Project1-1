@@ -25,7 +25,6 @@ public class DetailActivity extends AppCompatActivity {
     Intent mainActivityIntent;
     Intent toReturnBackMyDataToMainActivity;
     private ArrayList<String> mStringListDetailActivity;
-//    ArrayList<String> mStringListDetailActivityCopy;
     ArrayAdapter mAdapterDetailActivity;
     public int index;
 
@@ -40,10 +39,17 @@ public class DetailActivity extends AppCompatActivity {
         toDoListHeaderSecond = (TextView) findViewById(R.id.header1);
         secondActivityEditText = (EditText) findViewById(R.id.editText1);
         secondActivityListView = (ListView) findViewById(R.id.list1);
+        mainActivityIntent = getIntent();
+
+        mStringListDetailActivity = getDataList();
+        toReturnBackMyDataToMainActivity =  new Intent(DetailActivity.this, MainActivity.class);
+        if (mStringListDetailActivity == null) {
+            mStringListDetailActivity = new ArrayList<>();
+        }
+
+
         mAdapterDetailActivity = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, mStringListDetailActivity);
         secondActivityListView.setAdapter(mAdapterDetailActivity);
-        mStringListDetailActivity = new ArrayList<>();
-        mainActivityIntent = getIntent();
 
 
         String message = mainActivityIntent.getStringExtra("data");
@@ -52,7 +58,6 @@ public class DetailActivity extends AppCompatActivity {
 
 
         setDetailActivityListeners();
-        mStringListDetailActivity = getDataList();
         index = getIndex();
 
 
@@ -86,32 +91,30 @@ public class DetailActivity extends AppCompatActivity {
 //        Intent toReturnBackMyDataToMainActivity = getIntent();
         if (mainActivityIntent == null) {
             return null;
-        }        return mainActivityIntent.getStringArrayListExtra(MainActivity.DATA_KEY);
+        }
+        return mainActivityIntent.getStringArrayListExtra(MainActivity.DATA_KEY);
 
     }
 
     private int getIndex() {
 //        Intent mainActivityIntent = getIntent();
         if (mainActivityIntent == null) {
-            return -1;
+            return MainActivity.ERROR_INDEX;
         }
         return mainActivityIntent.getIntExtra(MainActivity.DATA_KEY_INDEX, -1);
     }
 
 
-    private void addItemsToList(int numItems){
+    private void addItemsToList(){
         if (mStringListDetailActivity == null){
             return;
         }
-        for (int i = 0; i < numItems; i++){
-            mStringListDetailActivity.add("Awesome list at: " + i);
-        }
+        mAdapterDetailActivity.notifyDataSetChanged();
     }
 
     private void sendNewListBack() {
 
-
-        if (toReturnBackMyDataToMainActivity == null) {
+        if (mStringListDetailActivity == null) {
             return;
         }
         toReturnBackMyDataToMainActivity.putExtra(MainActivity.DATA_KEY, mStringListDetailActivity);
@@ -129,7 +132,7 @@ public class DetailActivity extends AppCompatActivity {
 
     private void sendDataBack() {
         // modify the list
-        addItemsToList(25);
+        addItemsToList();
         // send the data back
         sendNewListBack();
     }
