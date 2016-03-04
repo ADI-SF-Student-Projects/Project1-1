@@ -28,7 +28,9 @@ public class MainActivity extends AppCompatActivity {
     Intent detailActivityTransition;
     ArrayList<String> mStringList;
     ArrayAdapter mAdapter;
-    static final int requestCodeFromDetailActivity = 1; // give some value???
+    static final int MAIN_REQUEST_CODE = 1;    // request code that will be used to request data from DetailActivity
+    public static final String DATA_KEY = "myDataKey";  // data key to retrieve data from intent, so we can retrieve data in DetailActivity
+    public ArrayList<String> myDataList; //Will store here my data from DetailActivity
 
 
     @Override
@@ -47,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
         firstActivityListView.setAdapter(mAdapter);
 
         setListeners();
-//        onActivityResult();
 
     }
 
@@ -88,7 +89,8 @@ public class MainActivity extends AppCompatActivity {
                 String myDataFromToDoList = mStringList.get(position);
 
                 detailActivityTransition.putExtra("data", myDataFromToDoList);
-                startActivityForResult(detailActivityTransition, requestCodeFromDetailActivity);
+                startActivityForResult(detailActivityTransition, MAIN_REQUEST_CODE);
+                Log.d("myDataFromToDoList", "detailActivityTransition");
 
             }
         });
@@ -106,30 +108,22 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-//    public void onActivityResult(){
-//
-//        Intent pickContactIntent = new Intent(Intent.ACTION_PICK, Uri.parse("content://contacts"));
-//        pickContactIntent.setType(Phone.CONTENT_TYPE); // Show user only contacts w/ phone numbers
-//        startActivityForResult(pickContactIntent, PICK_CONTACT_REQUEST);
-//
-//    }
-//
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // Check which request we're responding to
-        if (requestCode == requestCodeFromDetailActivity) {
+        if (requestCode == MAIN_REQUEST_CODE) {
             // Make sure the request was successful
             if (resultCode == RESULT_OK) {
-                detailActivityTransition.getStringExtra("Result");
+                if (data != null) {
+                    // update data list with the new data
+                    myDataList = data.getStringArrayListExtra(DATA_KEY);
+                }
 
-                // The user picked a contact.
-                // The Intent's data Uri identifies which contact was selected.
-
-                // Do something with the contact here (bigger example below)
             }
         }
     }
-
 }
+
+
 
 

@@ -24,6 +24,7 @@ public class DetailActivity extends AppCompatActivity {
     ListView secondActivityListView;
     Intent mainActivityIntent;
     ArrayList<String> mStringListDetailActivity;
+    ArrayList<String> mStringListDetailActivityCopy;
     ArrayAdapter mAdapterDetailActivity;
 
     @Override
@@ -44,6 +45,9 @@ public class DetailActivity extends AppCompatActivity {
         String message = mainActivityIntent.getStringExtra("data");
 
         toDoListHeaderSecond.setText(message);
+
+
+//        onBackPressed();
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab1);
@@ -68,20 +72,44 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
         setDetailActivityListeners();
-//        seeDataFromDetailActivity();
+
+//        mStringListDetailActivity = getData();
+
     }
 
+    private ArrayList<String> getData() {
+        if (mainActivityIntent == null) {
+            return null;
+        }
+        return mainActivityIntent.getStringArrayListExtra(MainActivity.DATA_KEY);
+    }
 
+    private void modifyList() {
+
+
+        if (mStringListDetailActivity == null) {
+            return;
+        }
+        mStringListDetailActivityCopy = new ArrayList<>(mStringListDetailActivity.size());
+        for (String item : mStringListDetailActivity) {
+            item += " back";
+            mStringListDetailActivityCopy.add(item);
+        }
+    }
+
+    private void sendNewListBack() {
+        Intent toReturnBackMyDataToMainActivity = getIntent();
+        if (toReturnBackMyDataToMainActivity == null) {
+            return;
+        }
+        toReturnBackMyDataToMainActivity.putExtra(MainActivity.DATA_KEY, mStringListDetailActivityCopy);
+        setResult(RESULT_OK, toReturnBackMyDataToMainActivity);
+        finish();
+    }
 
 
     private void setDetailActivityListeners() {
 
-//        secondActivityListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//
-//            }
-//        });
 
         secondActivityListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -98,21 +126,14 @@ public class DetailActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        String takeText = secondActivityEditText.getText().toString();
-        Intent dataDetailActivity = new Intent(takeText);
-        setResult(RESULT_OK, dataDetailActivity);
-        startActivityForResult(dataDetailActivity, requestCodeFromDetailActivity);
-        finish();
+        sendDataBack();
     }
 
-    //    private void seeDataFromDetailActivity() {
-//        String takeText = secondActivityEditText.getText().toString();
-//        Intent dataDetailActivity = new Intent(takeText);
-//        setResult(RESULT_OK, dataDetailActivity);
-//        startActivityForResult(dataDetailActivity, requestCodeFromDetailActivity);
-//        finish();
-//    }
-
-
+    private void sendDataBack() {
+        // modify the list
+        modifyList();
+        // send the data back
+        sendNewListBack();
+    }
 
 }
